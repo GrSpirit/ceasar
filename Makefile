@@ -2,7 +2,7 @@ CC=cc
 DEBUG=-g
 STANDARD=-std=c99
 CFLAGS=-Wall $(STANDARD) $(DEBUG)
-OBJ=main.o ceasar.o utf8.o
+OBJ=main.o ceasar.o utf8.o config.o
 
 all: ceasar
 

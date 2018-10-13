@@ -1,3 +1,6 @@
+#ifndef UTF8_H
+#define UTF8_H
+
 #include <stddef.h>
 #ifndef uchar_t
 typedef unsigned char uchar_t;
@@ -5,3 +8,5 @@ typedef unsigned char uchar_t;
 
 size_t utf8_to_unicode(wchar_t *dst, const uchar_t *src, size_t len);
 size_t unicode_to_utf8(uchar_t *dst, const wchar_t *src, size_t len);
+
+#endif

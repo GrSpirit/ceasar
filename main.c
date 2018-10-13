@@ -2,9 +2,10 @@
 #include <stdio.h>
 #include <string.h>
 #include "ceasar.h"
+#include "config.h"
 
-#define MAX_FILE_NAME 1024
-#define BUFF_SIZE 1024
+alphabet_range alphabets[ALPHABET_MAX_SIZE];
+size_t alphabet_size;
 
 void usage() {
     printf(
@@ -28,8 +29,9 @@ int main(int argc, char const *argv[])
     char input_file[MAX_FILE_NAME] = {0};
     char output_file[MAX_FILE_NAME] = {0};
     char alphabet_file[MAX_FILE_NAME] = {0};
-    FILE *ifile;
-    FILE *ofile;
+    FILE *ifile;    // Input file
+    FILE *ofile;    // Output file
+    FILE *afile;    // Alphabet file
     char buff[BUFF_SIZE];
     int buff_len;
 
@@ -79,6 +81,20 @@ int main(int argc, char const *argv[])
     if (!ofile) {
         perror("Cannot open output file");
         return -3;
+    }
+
+    if (alphabet_file[0]) {
+        afile = fopen(alphabet_file, "r");
+        buff_len = fread(buff, sizeof(char), BUFF_SIZE, ifile);
+        read_alphabet(buff, buff_len);
+    }
+    else {
+        // English alphabet by default
+        alphabets[0].start = 'a';
+        alphabets[0].end = 'z';
+        alphabets[1].start = 'A';
+        alphabets[1].end = 'Z';
+        alphabet_size = 2;
     }
 
     while ((buff_len = fread(buff, sizeof(char), BUFF_SIZE, ifile)) != 0) {
