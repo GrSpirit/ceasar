@@ -3,6 +3,7 @@
 #include <string.h>
 #include "ceasar.h"
 #include "config.h"
+#include "utf8.h"
 
 alphabet_range alphabets[ALPHABET_MAX_SIZE];
 size_t alphabet_size;
@@ -85,8 +86,9 @@ int main(int argc, char const *argv[])
 
     if (alphabet_file[0]) {
         afile = fopen(alphabet_file, "r");
-        buff_len = fread(buff, sizeof(char), BUFF_SIZE, ifile);
+        buff_len = fread(buff, sizeof(char), BUFF_SIZE, afile);
         read_alphabet(buff, buff_len);
+        fclose(afile);
     }
     else {
         // English alphabet by default

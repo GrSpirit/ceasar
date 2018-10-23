@@ -1,13 +1,9 @@
 #include "ceasar.h"
 #include "utf8.h"
+#include "config.h"
 
-const size_t ALPHABET_NUMBER = 4;
-const wchar_t ALPHABET_RANGES[][2] = {
-	{0x61, 0x7A},
-    {0x41, 0x5A},
-    {0x410, 0x42F},
-    {0x430, 0x44F}};
-
+extern alphabet_range alphabets[ALPHABET_MAX_SIZE];
+extern size_t alphabet_size;
 
 int ceasar(char *dst, const char *src, int size, int shift) {
 	wchar_t usrc[size];
@@ -16,13 +12,13 @@ int ceasar(char *dst, const char *src, int size, int shift) {
 
     for (int i = 0; i < usize; ++i) {
         int found = 0;
-		for (int j = 0; j < ALPHABET_NUMBER; ++j){
-			if (usrc[i] >= ALPHABET_RANGES[j][0] && usrc[i] <= ALPHABET_RANGES[j][1]) {
-                int alphabet_length = ALPHABET_RANGES[j][1] - ALPHABET_RANGES[j][0];
+		for (int j = 0; j < alphabet_size; ++j){
+			if (usrc[i] >= alphabets[j].start && usrc[i] <= alphabets[j].end) {
+                int alphabet_length = alphabets[j].end - alphabets[j].start;
                 int ushift = shift % alphabet_length;
                 if (ushift < 0) 
                     ushift = alphabet_length + ushift;
-                udst[i] = (usrc[i] - ALPHABET_RANGES[j][0] + ushift) % alphabet_length + ALPHABET_RANGES[j][0];
+                udst[i] = (usrc[i] - alphabets[j].start + ushift) % alphabet_length + alphabets[j].start;
                 found = 1;
                 break;
             }

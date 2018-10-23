@@ -6,8 +6,8 @@
 #define ALPHABET_MAX_SIZE 1024
 
 typedef struct {
-	wchar_t start;
-	wchar_t end;
+	unsigned long start;
+	unsigned long end;
 } alphabet_range;
 
 int read_alphabet(const char *buff, size_t buff_size);
